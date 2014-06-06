@@ -1,0 +1,30 @@
+ class Program
+    {
+        static void Main(string[] args)
+        {
+
+            var url = "URL HERE";
+
+            using (var c = new WebClient())
+            {
+                c.DownloadDataCompleted += DownloadDataCompleted;
+                c.DownloadDataAsync(new Uri(url));
+            }
+
+            Console.Read();
+            
+        }
+       
+        /// <summary>
+        /// Download images async and saving in jpg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+        {
+            Byte[] raw = e.Result;
+            File.WriteAllBytes(@"C:\_temp\ss.jpg", raw);
+
+            Console.WriteLine(raw.Length + " bytes received");
+        }
+    }
